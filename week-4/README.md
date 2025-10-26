@@ -2,7 +2,7 @@
 
 Read the full article at [my blog](https://kulugary.neocities.org/blog/learning-p5-js-week-four/).
 
-## p5.js editor sketch
+[p5.js editor sketch]
 
 ## References
 
