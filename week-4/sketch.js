@@ -44,5 +44,7 @@ function keyPressed() {
 function updateHilbert() {
   const selectedPalette = PALETTES[paletteSelect.value()] || PALETTES["Warm"];
   hilbert.palette = selectedPalette.map((c) => color(c));
+  clear(0);
+  setupCanvas();
   hilbert.reset();
 }
