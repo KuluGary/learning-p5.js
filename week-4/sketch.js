@@ -6,10 +6,14 @@ const PALETTES = {
   Cyberpunk: ["#f72585", "#7209b7", "#3a0ca3", "#4361ee", "#4cc9f0"],
 };
 
-function setup() {
+function setupCanvas() {
   createCanvas(512, 512);
   colorMode(HSB, 360, 255, 255);
   background(0);
+}
+
+function setup() {
+  setupCanvas();
 
   // --- UI controls ---
   createP("Palette:");
@@ -31,6 +35,8 @@ function draw() {
 
 function keyPressed() {
   if (key === "r" || key === "R") {
+    clear(0);
+    setupCanvas();
     hilbert.reset(random([4, 5, 6, 7]));
   }
 }

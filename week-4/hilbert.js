@@ -53,6 +53,7 @@ class Hilbert {
     this.total = this.N * this.N;
     this.counter = 0;
     this.buildPath();
+
     loop();
   }
 
