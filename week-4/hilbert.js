@@ -1,22 +1,22 @@
 class Hilbert {
   constructor({ order = 6, palette = [] } = {}) {
     this.order = order;
-    this.N = int(pow(2, this.order));
-    this.total = this.N * this.N;
-    this.counter = 0;
+    this.numberOfPoints = int(pow(2, this.order));
+    this.totalPoints = this.numberOfPoints * this.numberOfPoints;
+    this.pointsDrawnCount = 0;
 
     this.palette = palette;
   }
 
   buildPath() {
     this.path = [];
-    const len = width / this.N;
+    const stepSize = width / this.numberOfPoints;
 
-    for (let i = 0; i < this.total; i++) {
-      const v = this.hilbertVector(i);
-      v.mult(len);
-      v.add(len / 2, len / 2);
-      this.path.push(v);
+    for (let i = 0; i < this.totalPoints; i++) {
+      const vector = this.hilbertVector(i);
+      vector.mult(stepSize);
+      vector.add(stepSize / 2, stepSize / 2);
+      this.path.push(vector);
     }
   }
 
@@ -25,7 +25,7 @@ class Hilbert {
     strokeWeight(2 * -this.order);
     const paletteSize = this.palette.length;
 
-    for (let i = 1; i < this.counter; i++) {
+    for (let i = 1; i < this.pointsDrawnCount; i++) {
       const t = i / this.path.length;
       const col = lerpColor(
         this.palette[floor(t * paletteSize) % paletteSize],
@@ -42,16 +42,16 @@ class Hilbert {
       );
     }
 
-    this.counter++;
+    this.pointsDrawnCount++;
 
-    if (this.counter >= this.path.length) noLoop();
+    if (this.pointsDrawnCount >= this.path.length) noLoop();
   }
 
   reset(newOrder = this.order) {
     this.order = newOrder;
-    this.N = int(pow(2, this.order));
-    this.total = this.N * this.N;
-    this.counter = 0;
+    this.numberOfPoints = int(pow(2, this.order));
+    this.totalPoints = this.numberOfPoints * this.numberOfPoints;
+    this.pointsDrawnCount = 0;
     this.buildPath();
 
     loop();
@@ -65,32 +65,32 @@ class Hilbert {
       createVector(1, 0),
     ];
 
-    let v = base[index & 3].copy();
+    let vector = base[index & 3].copy();
 
-    for (let j = 1; j < this.order; j++) {
+    for (let i = 1; i < this.order; i++) {
       index = index >>> 2;
-      const quad = index & 3;
-      const len = pow(2, j);
+      const quadrant = index & 3;
+      const length = pow(2, i);
 
-      switch (quad) {
+      switch (quadrant) {
         case 0:
-          [v.x, v.y] = [v.y, v.x];
+          [vector.x, vector.y] = [vector.y, vector.x];
           break;
         case 1:
-          v.y += len;
+          vector.y += length;
           break;
         case 2:
-          v.x += len;
-          v.y += len;
+          vector.x += length;
+          vector.y += length;
           break;
         case 3:
-          const temp = v.x;
-          v.x = len - 1 - v.y + len;
-          v.y = len - 1 - temp;
+          const temp = vector.x;
+          vector.x = length - 1 - vector.y + length;
+          vector.y = length - 1 - temp;
           break;
       }
     }
 
-    return v;
+    return vector;
   }
 }

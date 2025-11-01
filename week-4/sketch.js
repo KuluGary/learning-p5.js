@@ -17,7 +17,7 @@ function setup() {
 
   // --- UI controls ---
   createP("Palette:");
-  paletteSelect = createSelect();
+  let paletteSelect = createSelect();
   for (let name in PALETTES) paletteSelect.option(name);
   paletteSelect.changed(updateHilbert);
 
@@ -26,6 +26,7 @@ function setup() {
     order: 6,
     palette: PALETTES["Warm"].map((c) => color(c)),
   });
+
   hilbert.buildPath();
 }
 
